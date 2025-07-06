@@ -23,7 +23,7 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Cache Arm GNU Toolchain, xtensa-esp-elf, Ninja and Python environment
+      - name: Cache Arm GNU Toolchain, xtensa-esp-elf and Python environment
         uses: actions/cache@v4
         id: cache
         with:
@@ -31,7 +31,6 @@ jobs:
           path: |
             C:\arm-gnu-toolchain
             C:\xtensa-esp-elf
-            C:\ninja
             ~\.espressif
 
       - name: Install Arm GNU Toolchain
@@ -46,13 +45,6 @@ jobs:
         run: |
           curl.exe -L https://github.com/espressif/crosstool-NG/releases/download/esp-13.2.0_20240530/xtensa-esp-elf-13.2.0_20240530-x86_64-w64-mingw32_hotfix.zip -o xtensa-esp-elf-toolchain.zip
           tar -xf xtensa-esp-elf-toolchain.zip -C C:\
-
-      - name: Install Ninja
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          curl.exe -L https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-win.zip -o ninja-win.zip
-          mkdir C:\ninja
-          tar -xf ninja-win.zip -C C:\ninja
 
       - name: Install esp-idf Python environment and requirements
         if: steps.cache.outputs.cache-hit != 'true'
@@ -76,7 +68,7 @@ jobs:
 
       - name: Build STM32F4
         run: |
-          $env:Path = "C:\arm-gnu-toolchain\bin;C:\ninja;" + $env:Path
+          $env:Path = "C:\arm-gnu-toolchain\bin;" + $env:Path
           make
 
       - name: Upload STM32F4 artifacts
@@ -91,7 +83,7 @@ jobs:
 
       - name: Build STM32F0
         run: |
-          $env:Path = "C:\arm-gnu-toolchain\bin;C:\ninja;" + $env:Path
+          $env:Path = "C:\arm-gnu-toolchain\bin;" + $env:Path
           make clean
           make stm32f0
           make
@@ -108,7 +100,7 @@ jobs:
 
       - name: Build STM32F1
         run: |
-          $env:Path = "C:\arm-gnu-toolchain\bin;C:\ninja;" + $env:Path
+          $env:Path = "C:\arm-gnu-toolchain\bin;" + $env:Path
           make clean
           make stm32f1
           make
@@ -125,7 +117,7 @@ jobs:
 
       - name: Build RP2040
         run: |
-          $env:Path = "C:\arm-gnu-toolchain\bin;C:\ninja;" + $env:Path
+          $env:Path = "C:\arm-gnu-toolchain\bin;" + $env:Path
           make clean
           make rp2040
           make
@@ -143,7 +135,7 @@ jobs:
 
       - name: Build ESP32S3
         run: |
-          $env:Path = "C:\xtensa-esp-elf\bin;C:\ninja;" + $env:Path
+          $env:Path = "C:\xtensa-esp-elf\bin;" + $env:Path
           make clean
           make esp32s3
           make
@@ -203,9 +195,6 @@ jobs:
         run: |
           python -m pip install -r third_party/esp-idf/tools/requirements/requirements.core.txt
           python -m pip install -U pyparsing --force
-
-      - name: Install Ninja
-        run: sudo apt update && sudo apt install ninja-build
 
       - name: Build STM32F4
         run: |

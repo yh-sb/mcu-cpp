@@ -37,9 +37,9 @@ jobs:
       - name: Install Arm GNU Toolchain
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          curl.exe -L https://developer.arm.com/-/media/Files/downloads/gnu/13.3.rel1/binrel/arm-gnu-toolchain-13.3.rel1-mingw-w64-i686-arm-none-eabi.zip -o arm-gnu-toolchain.zip
+          curl.exe -L https://developer.arm.com/-/media/Files/downloads/gnu/14.3.rel1/binrel/arm-gnu-toolchain-14.3.rel1-mingw-w64-x86_64-arm-none-eabi.zip -o arm-gnu-toolchain.zip
           mkdir C:\arm-gnu-toolchain
-          tar -xf arm-gnu-toolchain.zip -C C:\arm-gnu-toolchain --strip-components=1
+          tar -xf arm-gnu-toolchain.zip -C C:\arm-gnu-toolchain
 
       - name: Install xtensa-esp-elf toolchain
         if: steps.cache.outputs.cache-hit != 'true'
@@ -183,7 +183,7 @@ jobs:
       - name: Install Arm GNU Toolchain
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          curl -L https://developer.arm.com/-/media/Files/downloads/gnu/13.3.rel1/binrel/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi.tar.xz -o arm-gnu-toolchain.tar.xz
+          curl -L https://developer.arm.com/-/media/Files/downloads/gnu/14.3.rel1/binrel/arm-gnu-toolchain-14.3.rel1-x86_64-arm-none-eabi.tar.xz -o arm-gnu-toolchain.tar.xz
           mkdir ~/arm-gnu-toolchain
           tar -xf arm-gnu-toolchain.tar.xz -C ~/arm-gnu-toolchain --strip-components=1
 
